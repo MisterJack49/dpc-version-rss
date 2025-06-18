@@ -37,7 +37,10 @@ jobs:
         run: |
           mkdir -p docs
           mv index.xml docs/index.xml
-      
+
+      - name: Debug Git remote
+        run: git remote -v
+        
       - name: Commit RSS update
         run: |
           git config user.name "MisterJack49"
