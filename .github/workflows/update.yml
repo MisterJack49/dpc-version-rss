@@ -26,8 +26,17 @@ jobs:
       - name: Run scraper
         run: node index.js
 
+      - name: Check if debug files exist
+        id: debug_check
+        run: |
+          if [[ -f debug.html || -f screenshot.png ]]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Upload debug files
-        if: always()
+        if: steps.debug_check.outputs.found == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: debug-artifacts
