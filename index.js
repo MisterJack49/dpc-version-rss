@@ -51,8 +51,8 @@ const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.w
             const fs = await import('fs/promises');
             const html = await page.content();
             await fs.mkdir('docs', { recursive: true });
-            await fs.writeFile('docs/debug.html', html);
-            await page.screenshot({ path: 'docs/screenshot.png', fullPage: true });
+            await fs.writeFile('debug.html', html);
+            await page.screenshot({ path: 'screenshot.png', fullPage: true });
 
             console.log('📝 Saved debug.html and screenshot.png to docs/');
         }
@@ -61,7 +61,7 @@ const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.w
     } catch (e) {
         console.error('❌ Page load failed:', e);
         const errorHtml = await page.content();
-        await page.screenshot({ path: 'docs/screenshot.png', fullPage: true });
+        await page.screenshot({ path: 'screenshot.png', fullPage: true });
 
         const fs = await import('fs/promises');
         await fs.mkdir('docs', { recursive: true });
