@@ -46,7 +46,7 @@ const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.w
 
     let existingItems = [];
 
-    if (fs.existsSync('rss.xml')) {
+    if (fs.existsSync('index.xml')) {
         const xmlData = fs.readFileSync('rss.xml', 'utf-8');
         const parser = new XMLParser();
         const parsed = parser.parse(xmlData);
@@ -84,5 +84,5 @@ const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.w
     };
 
     const xml = create({version: '1.0', encoding: 'UTF-8'}, rss).end({prettyPrint: true});
-    fs.writeFileSync('rss.xml', xml);
+    fs.writeFileSync('index.xml', xml);
 })();

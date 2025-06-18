@@ -1,0 +1,38 @@
+name: Update RSS
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # every 24 hours
+  workflow_dispatch:       # allow manual run
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run scraper
+        run: node index.js
+
+      - name: Move RSS to docs
+        run: |
+          mkdir -p docs
+          mv index.xml docs/index.xml
+      
+      - name: Commit RSS update
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add docs/index.xml
+          git diff --cached --quiet || git commit -m "Update RSS feed"
+          git push
