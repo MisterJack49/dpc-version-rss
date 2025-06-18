@@ -14,10 +14,10 @@ const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.w
     console.log('Browser launched');
 
     let versions = [];
-
+    let page
 
     try {
-        const page = await browser.newPage();
+        page = await browser.newPage();
         await page.goto(URL, { waitUntil: 'networkidle2' });
         console.log('✅ Page loaded');
 
@@ -45,15 +45,33 @@ const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.w
             return result;
         });
 
-        console.log(`✅ Scraped ${versions.length} versions`);
-        if (versions.length) console.log('[Sample]:', versions[0]);
+        if (!versions || versions.length === 0) {
+            console.warn('⚠️ No versions scraped — dumping page content for debugging');
+
+            const fs = await import('fs/promises');
+            const html = await page.content();
+            await fs.mkdir('docs', { recursive: true });
+            await fs.writeFile('docs/debug.html', html);
+            await page.screenshot({ path: 'docs/screenshot.png', fullPage: true });
+
+            console.log('📝 Saved debug.html and screenshot.png to docs/');
+        }
+        
+        if (versions.length) console.log(`✅ Scraped ${versions.length} versions`);
     } catch (e) {
         console.error('❌ Page load failed:', e);
+        const errorHtml = await page.content();
+        await page.screenshot({ path: 'docs/screenshot.png', fullPage: true });
+
+        const fs = await import('fs/promises');
+        await fs.mkdir('docs', { recursive: true });
+        await fs.writeFile('docs/debug.html', errorHtml);
+
+        console.log('📝 Saved debug.html and screenshot.png to docs/');
     }
 
     await browser.close();
-
-    console.log(`✅ Scraped ${versions.length} versions`);
+    
     //console.log(versions);
 
     let existingItems = [];
