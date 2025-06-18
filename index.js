@@ -3,24 +3,46 @@ import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import {create} from 'xmlbuilder2';
 import {XMLParser} from 'fast-xml-parser';
 import fs from 'fs';
+import {executablePath} from "puppeteer";
 
-puppeteer.use(StealthPlugin());
+const puppeteerStealth = StealthPlugin();
+puppeteerStealth.enabledEvasions.delete('user-agent-override');
+puppeteer.use(puppeteerStealth);
 
 const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/versions';
 
 (async () => {
     console.log('Launching browser...');
-    const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']});
+    const browser = await puppeteer.launch({
+        executablePath: executablePath(),
+        readTimeout: 5 * 60 * 1000,
+        headless: true,
+        args: [
+            '--no-sandbox',
+            '--disable-notifications',
+            '--disable-dev-shm-usage',
+        ],
+    });
     console.log('Browser launched');
 
     let versions = [];
-    let page
-
+    const page = await browser.newPage();
     try {
-        page = await browser.newPage();
-        await page.goto(URL, { waitUntil: 'networkidle2' });
+        await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36')
+
+        const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/versions';
+
+        await page.goto(URL, { waitUntil: 'domcontentloaded' });
+        
         console.log('✅ Page loaded');
 
+        await page.waitForFunction(() => {
+            return !document.querySelector('form#challenge-form, .cf-browser-verification') &&
+                !/Attention Required/.test(document.title);
+        }, { timeout: 20000 }).catch(() => {
+            throw new Error('❌ Cloudflare challenge did not resolve in time');
+        });
+        
         versions = await page.evaluate(() => {
             const items = document.querySelectorAll('li a.ver_download_link');
             const result = [];
@@ -55,6 +77,7 @@ const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.w
             await page.screenshot({ path: 'screenshot.png', fullPage: true });
 
             console.log('📝 Saved debug.html and screenshot.png to docs/');
+            process.exit(0);
         }
         
         if (versions.length) console.log(`✅ Scraped ${versions.length} versions`);
