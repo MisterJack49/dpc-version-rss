@@ -47,7 +47,7 @@ const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.w
     let existingItems = [];
 
     if (fs.existsSync('index.xml')) {
-        const xmlData = fs.readFileSync('rss.xml', 'utf-8');
+        const xmlData = fs.readFileSync('index.xml', 'utf-8');
         const parser = new XMLParser();
         const parsed = parser.parse(xmlData);
         const items = parsed?.rss?.channel?.item || [];
