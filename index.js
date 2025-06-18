@@ -9,8 +9,6 @@ const puppeteerStealth = StealthPlugin();
 puppeteerStealth.enabledEvasions.delete('user-agent-override');
 puppeteer.use(puppeteerStealth);
 
-const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/versions';
-
 (async () => {
     console.log('Launching browser...');
     const browser = await puppeteer.launch({
@@ -114,11 +112,17 @@ const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.w
 
     // Add only new entries
     const newItems = versions
-        .map(v => ({
-            title: `${v.version} - ${v.date}`,
-            link: v.link,
-            description: `Version ${v.version} released on ${v.date}`
-        }))
+        .map(v => {
+            const pubDate = new Date().toUTCString();
+            const guid = v.version.slice("Android Device Policy ".length);
+            return {
+                title: `${v.version} - ${v.date}`,
+                link: v.link,
+                description: `Version ${v.version} released on ${v.date}`,
+                pubDate,
+                guid
+            };
+        })
         .filter(item => !existingKeys.has(item.title));
 
     // Combine and sort
