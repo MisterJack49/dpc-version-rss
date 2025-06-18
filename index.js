@@ -9,8 +9,17 @@ puppeteer.use(StealthPlugin());
 const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/versions';
 
 (async () => {
+    console.log('Launching browser...');
     const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']});
-    const page = await browser.newPage();
+    console.log('Browser launched');
+
+    try {
+        const page = await browser.newPage();
+        await page.goto(URL, { waitUntil: 'domcontentloaded' });
+        console.log('Page loaded');
+    } catch (e) {
+        console.error('Page load failed:', e);
+    }
 
     await page.goto(URL, {waitUntil: 'networkidle2'}); // more aggressive wait
     
