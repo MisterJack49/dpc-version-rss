@@ -15,13 +15,11 @@ const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.w
 
     let versions = [];
 
+
     try {
         const page = await browser.newPage();
-        await page.goto(URL, {waitUntil: 'domcontentloaded'});
-        console.log('Page loaded');
-
-
-        await page.goto(URL, {waitUntil: 'networkidle2'}); // more aggressive wait
+        await page.goto(URL, { waitUntil: 'networkidle2' });
+        console.log('✅ Page loaded');
 
         versions = await page.evaluate(() => {
             const items = document.querySelectorAll('li a.ver_download_link');
@@ -46,8 +44,11 @@ const URL = 'https://apkpure.com/android-device-policy/com.google.android.apps.w
 
             return result;
         });
+
+        console.log(`✅ Scraped ${versions.length} versions`);
+        if (versions.length) console.log('[Sample]:', versions[0]);
     } catch (e) {
-        console.error('Page load failed:', e);
+        console.error('❌ Page load failed:', e);
     }
 
     await browser.close();
