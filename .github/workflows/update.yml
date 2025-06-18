@@ -12,7 +12,9 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-
+        with:
+          token: ${{ secrets.GH_PAT }}
+          
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -38,9 +40,6 @@ jobs:
           mkdir -p docs
           mv index.xml docs/index.xml
 
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.GH_PAT }}
       - name: Commit RSS update
         run: |
           git config user.name "MisterJack49"
