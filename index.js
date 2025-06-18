@@ -49,7 +49,7 @@ puppeteer.use(puppeteerStealth);
                 const versionDiv = link.querySelector('.ver-item-n');
                 const dateSpan = link.querySelector('.update-on');
 
-                const version = versionDiv ? versionDiv.textContent.trim().replace(/\s+/g, ' ') : null;
+                const version = versionDiv ? versionDiv.textContent.trim().replace(/^Android Device Policy\s*/i, '').replace(/\s+/g, ' ') : null;
                 const date = dateSpan ? dateSpan.textContent.trim() : null;
                 const href = link.getAttribute('href');
 
@@ -107,16 +107,17 @@ puppeteer.use(puppeteerStealth);
 
     // Use a Set for fast version-date matching
     const existingKeys = new Set(
-        existingItems.map(i => `${i.title}`)
+        existingItems.map(i => `${i.guid}`)
     );
 
     // Add only new entries
     const newItems = versions
+        .filter(v => !existingKeys.has(v.version))
         .map(v => {
             const pubDate = new Date().toUTCString();
-            const guid = v.version.slice("Android Device Policy ".length);
+            const guid = v.version;
             return {
-                title: `${v.version} - ${v.date}`,
+                title: `Android Device Policy ${v.version} - ${v.date}`,
                 link: v.link,
                 description: `Version ${v.version} released on ${v.date}`,
                 pubDate,
