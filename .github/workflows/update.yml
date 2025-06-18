@@ -38,9 +38,6 @@ jobs:
           mkdir -p docs
           mv index.xml docs/index.xml
 
-      - name: Debug Git remote
-        run: git remote -v
-        
       - name: Commit RSS update
         run: |
           git config user.name "MisterJack49"
@@ -48,4 +45,5 @@ jobs:
           git add docs/index.xml
           git diff --cached --quiet || git commit -m "Update RSS feed"
           git remote set-url origin "https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}"
+          git remote -v
           git push origin HEAD:master
