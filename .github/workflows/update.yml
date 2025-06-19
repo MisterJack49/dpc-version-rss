@@ -1,4 +1,4 @@
-name: Update RSS
+name: update-rss-feed
 
 on:
   schedule:
@@ -29,7 +29,7 @@ jobs:
       - name: Check if debug files exist
         id: debug_check
         run: |
-          if [[ -f debug.html || -f screenshot.png ]]; then
+          if [[ -f debug.html || -f debug.png ]]; then
             echo "found=true" >> $GITHUB_OUTPUT
           else
             echo "found=false" >> $GITHUB_OUTPUT
@@ -42,7 +42,7 @@ jobs:
           name: debug-artifacts
           path: |
             debug.html
-            screenshot.png
+            debug.png
 
       - name: Commit RSS update
         run: |
