@@ -10,7 +10,7 @@ puppeteerStealth.enabledEvasions.delete('user-agent-override');
 puppeteer.use(puppeteerStealth);
 
 (async () => {
-    console.log('Launching browser...');
+    console.log('🛫 - Launching browser...');
     const browser = await puppeteer.launch({
         executablePath: executablePath(),
         readTimeout: 5 * 60 * 1000,
@@ -21,7 +21,7 @@ puppeteer.use(puppeteerStealth);
             '--disable-dev-shm-usage',
         ],
     });
-    console.log('Browser launched');
+    console.log('✔️ - Browser launched');
 
     let versions = [];
     const page = await browser.newPage();
@@ -32,13 +32,13 @@ puppeteer.use(puppeteerStealth);
 
         await page.goto(URL, { waitUntil: 'domcontentloaded' });
         
-        console.log('✅ Page loaded');
+        console.log('✔️ - Page loaded');
 
         await page.waitForFunction(() => {
             return !document.querySelector('form#challenge-form, .cf-browser-verification') &&
                 !/Attention Required/.test(document.title);
         }, { timeout: 20000 }).catch(() => {
-            throw new Error('❌ Cloudflare challenge did not resolve in time');
+            throw new Error('⛔ - Cloudflare challenge did not resolve in time');
         });
         
         versions = await page.evaluate(() => {
@@ -66,7 +66,7 @@ puppeteer.use(puppeteerStealth);
         });
 
         if (!versions || versions.length === 0) {
-            console.warn('⚠️ No versions scraped — dumping page content for debugging');
+            console.warn('⚠️ - No versions scraped — dumping page content for debugging');
 
             const fs = await import('fs/promises');
             const html = await page.content();
@@ -74,13 +74,13 @@ puppeteer.use(puppeteerStealth);
             await fs.writeFile('debug.html', html);
             await page.screenshot({ path: 'screenshot.png', fullPage: true });
 
-            console.log('📝 Saved debug.html and screenshot.png to docs/');
+            console.log('📝 - Saved debug.html and screenshot.png to docs/');
             process.exit(0);
         }
         
-        if (versions.length) console.log(`✅ Scraped ${versions.length} versions`);
+        if (versions.length) console.log(`🦝 - Scraped ${versions.length} versions`);
     } catch (e) {
-        console.error('❌ Page load failed:', e);
+        console.error('🏴‍☠️ - Page load failed:', e);
         const errorHtml = await page.content();
         await page.screenshot({ path: 'screenshot.png', fullPage: true });
 
@@ -88,7 +88,7 @@ puppeteer.use(puppeteerStealth);
         await fs.mkdir('docs', { recursive: true });
         await fs.writeFile('docs/debug.html', errorHtml);
 
-        console.log('📝 Saved debug.html and screenshot.png to docs/');
+        console.log('📝 - Saved debug.html and screenshot.png to docs/');
     }
 
     await browser.close();
@@ -96,9 +96,10 @@ puppeteer.use(puppeteerStealth);
     //console.log(versions);
 
     let existingItems = [];
+    const xmlPath = 'docs/index.xml'
 
-    if (fs.existsSync('index.xml')) {
-        const xmlData = fs.readFileSync('index.xml', 'utf-8');
+    if (fs.existsSync(xmlPath)) {
+        const xmlData = fs.readFileSync(xmlPath, 'utf-8');
         const parser = new XMLParser();
         const parsed = parser.parse(xmlData);
         const items = parsed?.rss?.channel?.item || [];
@@ -126,6 +127,8 @@ puppeteer.use(puppeteerStealth);
         })
         .filter(item => !existingKeys.has(item.title));
 
+    console.log(`🔎 - Found ${newItems.length} new versions`);
+
     // Combine and sort
     const allItems = [...newItems, ...existingItems].slice(0, 50); // keep only latest 50
 
@@ -142,5 +145,5 @@ puppeteer.use(puppeteerStealth);
     };
 
     const xml = create({version: '1.0', encoding: 'UTF-8'}, rss).end({prettyPrint: true});
-    fs.writeFileSync('index.xml', xml);
+    fs.writeFileSync(xmlPath, xml);
 })();
