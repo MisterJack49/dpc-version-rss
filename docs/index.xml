@@ -5,6 +5,20 @@
     <link>https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/versions</link>
     <description>Tracks version updates on APKPure</description>
     <item>
+      <title>Android Device Policy 148.35.1 (10546140) - Jan 6, 2026</title>
+      <link>https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/download</link>
+      <description>Version 148.35.1 (10546140) released on Jan 6, 2026</description>
+      <pubDate>Wed, 07 Jan 2026 02:12:06 GMT</pubDate>
+      <guid>148.35.1 (10546140)</guid>
+    </item>
+    <item>
+      <title>Android Device Policy 147.38.2 (10532500) - Jan 6, 2026</title>
+      <link>https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/download/147.38.2%20(10532500)</link>
+      <description>Version 147.38.2 (10532500) released on Jan 6, 2026</description>
+      <pubDate>Wed, 07 Jan 2026 02:12:06 GMT</pubDate>
+      <guid>147.38.2 (10532500)</guid>
+    </item>
+    <item>
       <title>Android Device Policy 147.38.1 (10532480) - Dec 8, 2025</title>
       <link>https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/download</link>
       <description>Version 147.38.1 (10532480) released on Dec 8, 2025</description>
@@ -339,20 +353,6 @@
       <description>Version Android Device Policy 122.56.2 (10244720) released on Dec 3, 2024</description>
       <pubDate>Wed, 18 Jun 2025 21:48:45 GMT</pubDate>
       <guid>122.56.2 (10244720)</guid>
-    </item>
-    <item>
-      <title>Android Device Policy 121.32.1 (10226840) - Nov 13, 2024</title>
-      <link>https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/download/121.32.1%20(10226840)</link>
-      <description>Version Android Device Policy 121.32.1 (10226840) released on Nov 13, 2024</description>
-      <pubDate>Wed, 18 Jun 2025 21:48:45 GMT</pubDate>
-      <guid>121.32.1 (10226840)</guid>
-    </item>
-    <item>
-      <title>Android Device Policy 118.33.2 (10195580) - Oct 3, 2024</title>
-      <link>https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/download/118.33.2%20(10195580)</link>
-      <description>Version Android Device Policy 118.33.2 (10195580) released on Oct 3, 2024</description>
-      <pubDate>Wed, 18 Jun 2025 21:48:45 GMT</pubDate>
-      <guid>118.33.2 (10195580)</guid>
     </item>
   </channel>
 </rss>
