@@ -5,6 +5,13 @@
     <link>https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/versions</link>
     <description>Tracks version updates on APKPure</description>
     <item>
+      <title>Android Device Policy 150.24.1 (10582840) - Feb 3, 2026</title>
+      <link>https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/download</link>
+      <description>Version 150.24.1 (10582840) released on Feb 3, 2026</description>
+      <pubDate>Wed, 04 Feb 2026 02:40:45 GMT</pubDate>
+      <guid>150.24.1 (10582840)</guid>
+    </item>
+    <item>
       <title>Android Device Policy 149.81.5 (10572840) - Jan 29, 2026</title>
       <link>https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/download</link>
       <description>Version 149.81.5 (10572840) released on Jan 29, 2026</description>
@@ -346,13 +353,6 @@
       <description>Version Android Device Policy 125.33.2 (10294460) released on Feb 6, 2025</description>
       <pubDate>Wed, 18 Jun 2025 21:48:45 GMT</pubDate>
       <guid>125.33.2 (10294460)</guid>
-    </item>
-    <item>
-      <title>Android Device Policy 125.33.1 (10294440) - Feb 4, 2025</title>
-      <link>https://apkpure.com/android-device-policy/com.google.android.apps.work.clouddpc/download/125.33.1%20(10294440)</link>
-      <description>Version Android Device Policy 125.33.1 (10294440) released on Feb 4, 2025</description>
-      <pubDate>Wed, 18 Jun 2025 21:48:45 GMT</pubDate>
-      <guid>125.33.1 (10294440)</guid>
     </item>
   </channel>
 </rss>
