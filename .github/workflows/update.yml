@@ -1,8 +1,6 @@
 name: update-rss-feed
 
 on:
-  schedule:
-    - cron: '0 0 * * *'  # every 24 hours
   workflow_dispatch:       # allow manual run
 
 jobs:
